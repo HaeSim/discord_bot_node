@@ -4,6 +4,7 @@ const Caver = require("caver-js");
 const dotEnv = require('dotenv');
 const cors = require('cors');
 const fetch = require('node-fetch');
+const { add_nft_role } = require('./bot')
 
 dotEnv.config();
 
@@ -72,7 +73,7 @@ app.post("/api_discord_connect", async (request, response) => {
     console.log("userData", userData);
 
   // 3. give auth
-
+  add_nft_role(userData.id);
   return response.json({
     code: 200,
     message: "ok",
