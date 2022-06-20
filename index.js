@@ -10,7 +10,7 @@ dotEnv.config();
 
 const app = express();
 const corsOptions = {
-    origin : 'http://localhost:3000',
+    origin : 'https://klaytn-dean.vercel.app/',
     credentials : true,
 }
 
