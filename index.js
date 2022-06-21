@@ -4,7 +4,8 @@ const Caver = require("caver-js");
 const dotEnv = require('dotenv');
 const cors = require('cors');
 const fetch = require('node-fetch');
-const { add_nft_role } = require('./bot')
+const { add_nft_role } = require('./bot');
+const { makeExcelFile } = require('./makeExcelFile');
 
 dotEnv.config();
 
@@ -16,12 +17,10 @@ const corsOptions = {
 
 app.use(bodyParser.json(),cors(corsOptions));
 
-app.get("/", (request, response) => {
-
-    return response.json({
-      code: 200,
-      message: "hi, server is working..",
-    });
+app.get("/", async (request, response) => {
+  const excel = await makeExcelFile(request);
+    
+  excel.write('Excel.xlsx', response); // download
 });
 
 app.post("/api_discord_connect", async (request, response) => {
