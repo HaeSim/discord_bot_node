@@ -10,7 +10,7 @@ dotEnv.config();
 
 const app = express();
 const corsOptions = {
-    origin : 'https://klaytn-dean.vercel.app/',
+    origin : 'https://klaytn-dean.vercel.app',
     credentials : true,
 }
 
