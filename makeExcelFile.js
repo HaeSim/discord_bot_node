@@ -17,34 +17,56 @@ async function makeExcelFile(request) {
     // ,numberFormat: '$#,##0.00; ($#,##0.00); -',
   });
   
-  // Set value of cell A1 to 100 as a number type styled with paramaters of style
+  // HEADER
   sheet.cell(1, 1)
-    .string('text')
+    .string('INDEX')
     .style(style);
+
   sheet.cell(1, 2)
-    .number(100)
+    .string('ID')
     .style(style);
 
-  // Set value of cell B1 to 200 as a number type styled with paramaters of style
   sheet.cell(1, 3)
-    .date(new Date())
+    .string('NAME')
     .style(style);
 
-  // Set value of cell C1 to a formula styled with paramaters of style
   sheet.cell(1, 4)
-    .formula('A1 + B1')
+    .string('ADDRESS')
     .style(style);
 
-  // Set value of cell A2 to 'string' styled with paramaters of style
   sheet.cell(1, 5)
-    .string('id')
+    .string('NFT Count')    
     .style(style);
 
-  // Set value of cell A3 to true as a boolean type styled with paramaters of style but with an adjustment to the font size.
   sheet.cell(1, 6)
-    .bool(true)
-    .style(style)
-    .style({font: {size: 14}});
+    .string('DateTime')
+    .style(style);
+
+  for(let i=2; i<10; i++) {
+    sheet.cell(i, 1)
+      .number(i-1)
+      .style(style);
+  
+    sheet.cell(i, 2)
+      .string('00000' + i)
+      .style(style);
+  
+    sheet.cell(i, 3)
+      .string('TEST'+ i)
+      .style(style);
+  
+    sheet.cell(i, 4)
+      .string('0x01230df'+(i*2))
+      .style(style);
+  
+    sheet.cell(i, 5)
+      .number(i)    
+      .style(style);
+  
+    sheet.cell(i, 6)
+      .date(new Date())
+      .style(style);
+  }
   
   return workbook;
 }
