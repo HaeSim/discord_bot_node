@@ -19,8 +19,11 @@ app.use(bodyParser.json(),cors(corsOptions));
 
 app.get("/", async (request, response) => {
   const excel = await makeExcelFile(request);
-    
-  excel.write('Excel.xlsx', response); // download
+  const fileName = 'Holder_List.xlsx';
+
+  response.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+  response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+  excel.xlsx.write(response).then(()=>response.end()); // download
 });
 
 app.post("/api_discord_connect", async (request, response) => {
