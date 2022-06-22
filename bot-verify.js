@@ -18,7 +18,7 @@ async function ready(client) {
 
   const embed2 = new MessageEmbed() //
     .setTitle("봇 흔들어 깨우기")
-    .setDescription(`위에 문구를 눌러서 지갑을 연동하세요`)
+    .setDescription(`봇이 자고 있을 수 있어요. 흔들어서 깨워주세요. (30초 이내로 깨어남)`)
     .setURL(URL_BOT);
   ch.send({ embeds: [embed2] }).then(() => {});
 }
