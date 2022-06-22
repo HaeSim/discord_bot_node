@@ -4,8 +4,8 @@ const Caver = require("caver-js");
 const dotEnv = require('dotenv');
 const cors = require('cors');
 const fetch = require('node-fetch');
-const { add_nft_role } = require('./bot');
-const { makeExcelFile } = require('./makeExcelFile');
+const { add_nft_role, send_excel_file }  = require('./bot-action');
+const { runBot } = require('./bot');
 
 dotEnv.config();
 
@@ -18,12 +18,7 @@ const corsOptions = {
 app.use(bodyParser.json(),cors(corsOptions));
 
 app.get("/", async (request, response) => {
-  const excel = await makeExcelFile(request);
-  const fileName = 'Holder_List.xlsx';
-
-  response.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-  response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-  excel.xlsx.write(response).then(()=>response.end()); // download
+  send_excel_file(request, response);
 });
 
 app.post("/api_discord_connect", async (request, response) => {
@@ -82,26 +77,6 @@ app.post("/api_discord_connect", async (request, response) => {
   });
 });
 
-app.post("/api_wallet", async (request, response) => {
-  console.log("api_wallet", request.body);
-  const addr = request.body.addr;
-  if(addr === null) return response.json({
-    code: 400,
-    message: "plz connect your wallet",
-  });
-  
-  let ret;
-  ret = await contract.balanceOf(addr);
-  const count = Number(ret);
-  console.log("count", count);
-
-  return response.json({
-    code: 200,
-    message: "ok",
-    count,
-  });
-});
-
 async function initContract() {
     contract = await caver.kct.kip17.create(process.env.CONTRACT_ADDR);
     console.log("initContract ok");
@@ -116,5 +91,7 @@ const caver = new Caver(process.env.RPC_URL);
 let contract = null;
 
 initContract();
+
+runBot();
 
   
