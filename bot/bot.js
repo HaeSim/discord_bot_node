@@ -1,6 +1,6 @@
 const { Client, Intents } = require("discord.js");
-const Verify = require("./bot-action");
 const dotEnv = require('dotenv');
+const Verify = require("./bot-action");
 
 dotEnv.config();
 const runBot = () => {

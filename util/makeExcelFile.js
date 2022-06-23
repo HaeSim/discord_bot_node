@@ -1,4 +1,4 @@
-const Excel = require('exceljs'); // npm install excel4node --save 를 통해 설치
+const Excel = require('exceljs'); 
 
 async function makeExcelFile(request) {
 

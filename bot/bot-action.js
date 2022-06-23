@@ -1,6 +1,6 @@
 const { MessageEmbed } = require("discord.js");
-const { makeExcelFile } = require('./makeExcelFile');
 const dotEnv = require('dotenv');
+const { makeExcelFile } = require('../util/makeExcelFile');
 
 dotEnv.config();
 
