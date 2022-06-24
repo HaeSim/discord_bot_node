@@ -1,7 +1,15 @@
 const express = require('express');
+const bodyParser = require("body-parser");
+const cors = require('cors');
 const fetch = require('node-fetch');
 
+const corsOptions = {
+  origin : 'https://klaytn-dean.vercel.app',
+  credentials : true,
+}
 const router = express.Router();
+
+router.use(bodyParser.json(),cors(corsOptions))
 
 router.get('/', (req, res) => {
   res.send('Hello, discord');
