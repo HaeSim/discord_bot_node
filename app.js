@@ -10,12 +10,8 @@ const discordRouter = require('./routes/discord')
 dotEnv.config();
 
 const app = express();
-const corsOptions = {
-    origin : 'https://klaytn-dean.vercel.app',
-    credentials : true,
-}
 
-app.use(bodyParser.json(),cors(corsOptions));
+app.use(bodyParser.json(),cors());
 app.use('/', indexRouter);
 app.use('/discord', discordRouter);
 
