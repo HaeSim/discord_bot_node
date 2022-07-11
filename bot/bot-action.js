@@ -1,6 +1,5 @@
 const { MessageEmbed } = require("discord.js");
 const dotEnv = require('dotenv');
-const { makeExcelFile } = require('../util/makeExcelFile');
 
 dotEnv.config();
 
@@ -17,36 +16,13 @@ async function ready(client) {
     .setURL(URL_ATUH);
   ch.send({ embeds: [embed] }).then(() => {});
 
-  const embed2 = new MessageEmbed() //
-    .setTitle("봇 흔들어 깨우기")
-    .setDescription(`봇이 자고 있을 수 있어요. 흔들어서 깨워주세요. (30초 이내로 깨어남)`)
-    .setURL(URL_BOT);
-  ch.send({ embeds: [embed2] }).then(() => {});
-}
-
-async function add_nft_role(user_id) {
-  const ROLE_ID_NFT = process.env.ROLE_ID
-  console.log("add_nft_role", user_id);
-
-  const guild = client.guilds.cache.get(GUILD_ID);
-  const role = guild.roles.cache.get(ROLE_ID_NFT);
-  const channel = guild.channels.cache.get(CHANNEL_ID);
-  const member = await guild.members.fetch(user_id);
-  member.roles.add(role);
-  channel.send(member.user.username + " is verified!!");
-}
-
-async function send_excel_file(request, response) {
-  const excel = await makeExcelFile(request);
-  const fileName = 'Holder_List.xlsx';
-
-  response.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-  response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-  excel.xlsx.write(response).then(()=>response.end()); // download
+  // const embed2 = new MessageEmbed() //
+  //   .setTitle("봇 흔들어 깨우기")
+  //   .setDescription(`봇이 자고 있을 수 있어요. 흔들어서 깨워주세요. (30초 이내로 깨어남)`)
+  //   .setURL(URL_BOT);
+  // ch.send({ embeds: [embed2] }).then(() => {});
 }
 
 module.exports = {
   ready,
-  add_nft_role,
-  send_excel_file,
 };
