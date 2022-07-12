@@ -1,6 +1,10 @@
-const { Client, Intents } = require("discord.js");
-const Verify = require("./bot-action");
+const { Client, Intents, MessageAttachment } = require("discord.js");
 const dotEnv = require('dotenv');
+
+const Verify = require("./bot-action");
+const reaction = require('./deploy-commands');
+const { User } = require('../model/User')
+const { makeExcelFile } = require('../util/makeExcelFile');
 
 dotEnv.config();
 
@@ -23,6 +27,22 @@ client.once("ready", async () => {
 
   Verify.ready(client);
   console.log(`Ready!`);
+});
+
+client.on('interactionCreate', async interaction => {
+	if (!interaction.isCommand()) return;
+
+	const { commandName } = interaction;
+
+	if (commandName === 'ping') {
+		await interaction.reply('Pong!');
+	} else if (commandName === 'server') {
+		await interaction.reply(`Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`);
+	} else if (commandName === 'user') {
+    const excel = await makeExcelFile(await User.findAll());
+    const file = new MessageAttachment(await excel.xlsx.writeBuffer(), 'Holder_List.xlsx'); 
+		await interaction.reply({files: [file]});
+	} 
 });
 
 client.login(process.env.BOT_TOKEN);

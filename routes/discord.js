@@ -17,8 +17,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/test', async (req, res) => {
-  const result = await User.findAll()
-  console.log(result);
+  const result = await User.findAll();
   const excel = await makeExcelFile(result);
   const fileName = 'Holder_List_test.xlsx';
 
