@@ -15,7 +15,7 @@ app.use(bodyParser.json(),cors());
 app.use('/', indexRouter);
 app.use('/discord', discordRouter);
 
-mongoose.connect('mongodb://localhost:27017/discord', {
+mongoose.connect(process.env.DB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
