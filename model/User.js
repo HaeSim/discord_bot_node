@@ -11,7 +11,9 @@ const userSchema = mongoose.Schema({
   name: {
     type: String,
     trim: true,
-    minlength: 5,
+    unique: true,
+    required: true,
+    minlength: 1,
   },
   address: {
     type: String,
@@ -30,10 +32,21 @@ const userSchema = mongoose.Schema({
 userSchema.statics.create = function (payload) {
   // this === Model
   const user = new this(payload)
+  user.datetime = new Date();
   // return Promise
-  return user.save()
+  return user.save();
 }
 
-const User = mongoose.model('User', userSchema)
+// Find All
+userSchema.statics.findAll = function () {
+  return this.find({}).select('-_id -__v');
+}
+
+// Find by Id
+userSchema.statics.findOneById = function (id) {
+  return this.findOne({ id });
+}
+
+const User = mongoose.model('User', userSchema);
 
 module.exports = { User }

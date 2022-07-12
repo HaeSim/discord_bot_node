@@ -15,14 +15,12 @@ app.use(bodyParser.json(),cors());
 app.use('/', indexRouter);
 app.use('/discord', discordRouter);
 
-mongoose.connect('mongodb://localhost:27017', {
+mongoose.connect('mongodb://localhost:27017/discord', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-});
-
-const db = mongoose.connection;
-
-db.once("open", () => console.log(`✅ Connected to DB`));
+})
+.then(() => console.log('✅ Connected to DB'))
+.catch(err => console.error(err));
 
 app.listen(process.env.PORT, () =>
   console.log(`App listening at http://localhost:${process.env.PORT}`)
