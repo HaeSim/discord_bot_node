@@ -56,23 +56,24 @@ async function makeExcelFile(userList) {
   
   // HEADER
   sheetHolderList.columns = [
-    {header: 'INDEX', key: 'index', width: 10, style: HEADER_STYLE},
-    {header: 'ID', key: 'id', hidden:false, width: 20, style: HEADER_STYLE},
-    {header: 'NAME', key: 'name', width: 30, style: HEADER_STYLE},
-    {header: 'ADDRESS', key: 'address', width: 45, style: HEADER_STYLE},
-    {header: 'NFT Count', key: 'nftCount', width: 15, style: HEADER_STYLE},
-    {header: 'DateTime', key: 'datetime', width: 20, style: HEADER_STYLE},
+    {header: 'INDEX',     key: 'index',     width: 10, style: HEADER_STYLE},
+    {header: 'ID',        key: 'id',        width: 20, style: HEADER_STYLE, hidden:false},
+    {header: 'NAME',      key: 'name',      width: 30, style: HEADER_STYLE},
+    {header: 'CHAIN',     key: 'chain',     width: 30, style: HEADER_STYLE},
+    {header: 'ADDRESS',   key: 'address',   width: 45, style: HEADER_STYLE},
+    {header: 'NFT Count', key: 'nftCount',  width: 15, style: HEADER_STYLE},
+    {header: 'DateTime',  key: 'datetime',  width: 20, style: HEADER_STYLE},
   ];
 
   // Row
   // SampleData
   const sampleData = [
-    { index: 1, id: '0000000001', name: 'THIS', address: '0x01172076A62A8ee348F5aaC995dDbC617294c410', nftCount: 1, datetime: new Date() },
-    { index: 2, id: '0000000002', name: 'IS', address: '0xBe037070D68b73b1dD8959B392E96b536D2523d5', nftCount: 4, datetime: new Date() },
-    { index: 3, id: '0000000003', name: 'SAMPLE', address: '0xBe037070D68b73348F5a2E96b536D2523d5', nftCount: 2, datetime: new Date() },
-    { index: 4, id: '0000000006', name: 'DATA', address: '0x01172076A62A8ee348F5aaC995dDbC617294c410', nftCount: 7, datetime: new Date() },
-    { index: 5, id: '0000000007', name: 'HAHA', address: '0x0117212312rA8ee348F5aaC995dDbC617294c410', nftCount: 1, datetime: new Date() },
-    { index: 6, id: '0000000012', name: '^^', address: '0x01172076A62Aawef2195dDbC617294c410', nftCount: 1, datetime: new Date() },
+    { index: 1, id: '0000000001', name: 'THIS',   chain : 'klaytn', address: '0x01172076A62A8ee348F5aaC995dDbC617294c410',  nftCount: 1, datetime: new Date() },
+    { index: 2, id: '0000000002', name: 'IS',     chain : 'klaytn', address: '0xBe037070D68b73b1dD8959B392E96b536D2523d5',  nftCount: 4, datetime: new Date() },
+    { index: 3, id: '0000000003', name: 'SAMPLE', chain : 'klaytn', address: '0xBe037070D68b73348F5a2E96b536D2523d5',       nftCount: 2, datetime: new Date() },
+    { index: 4, id: '0000000006', name: 'DATA',   chain : 'klaytn', address: '0x01172076A62A8ee348F5aaC995dDbC617294c410',  nftCount: 7, datetime: new Date() },
+    { index: 5, id: '0000000007', name: 'HAHA',   chain : 'klaytn', address: '0x0117212312rA8ee348F5aaC995dDbC617294c410',  nftCount: 1, datetime: new Date() },
+    { index: 6, id: '0000000012', name: '^^',     chain : 'klaytn', address: '0x01172076A62Aawef2195dDbC617294c410',        nftCount: 1, datetime: new Date() },
   ];
   if(userList === undefined) {
     userList = sampleData;
@@ -88,7 +89,7 @@ async function makeExcelFile(userList) {
     for(let i = 1; i <= sheetHolderList.columnCount; i++) {
       const cell = sheetHolderList.getRow(index + 2).getCell(i);
       switch (cell.col) {
-        case 6:
+        case 7:
           cell.style = ROW_DATE_STYLE; 
           break;
       

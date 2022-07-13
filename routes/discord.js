@@ -3,7 +3,7 @@ const cors = require('cors');
 const fetch = require('node-fetch');
 
 const { User } = require('../model/User')
-const { initContract } = require('../util/contract');
+const { initContract, checkHolder } = require('../util/contract');
 const { add_nft_role } = require('../bot/bot');
 const { makeExcelFile } = require('../util/makeExcelFile');
 
@@ -29,13 +29,13 @@ router.get('/test', async (req, res) => {
 router.post('/create', async (req, res) => {
   let cnt = 0;
   const sampleData = [
-    { id: '746392810101669979', name: 'Joon', address: '0x01172076A62A8ee348F5aaC995dDbC617294c410', nftCount: 1},
-    { id: '984266914731794472', name: 'JOY', address: '0xBe037070D68b73b1dD8959B392E96b536D2523d5', nftCount: 4},
-    { id: '953210139245162537', name: 'Emilly', address: '0xBe037070D68b73348F5a2E96b536D2523d5', nftCount: 2},
-    { id: '970830481513926676', name: 'James', address: '0x01172076A62A8ee348F5aaC995dDbC617294c410', nftCount: 7},
-    { id: '970581203914727424', name: 'Jack', address: '0x0117212312rA8ee348F5aaC995dDbC617294c410', nftCount: 1},
-    { id: '951060533476466709', name: 'K', address: '0x01172076A62Aawef2195dDbC617294c410', nftCount: 1},
-    { id: '991531608832217188', name: 'Hopper', address: '0x01172076A62Aawef2195dDbC617294c410', nftCount: 1},
+    { id: '746392810101669979', name: 'Joon',   chain: 'klaytn',    address: '0x01172076A62A8ee348F5aaC995dDbC617294c410', nftCount: 1},
+    { id: '984266914731794472', name: 'JOY',    chain: 'ethereum',  address: '0xBe037070D68b73b1dD8959B392E96b536D2523d5', nftCount: 4},
+    { id: '953210139245162537', name: 'Emilly', chain: 'polygon',   address: '0x01172076A62A8ee348F5aaC995dDbC617294c410', nftCount: 2},
+    { id: '970830481513926676', name: 'James',  chain: 'ethereum',  address: '0x01172076A62A8ee348F5aaC995dDbC617294c410', nftCount: 7},
+    { id: '970581203914727424', name: 'Jack',   chain: 'klaytn',    address: '0xBe037070D68b73b1dD8959B392E96b536D2523d5', nftCount: 1},
+    { id: '951060533476466709', name: 'K',      chain: 'ethereum',  address: '0x01172076A62A8ee348F5aaC995dDbC617294c410', nftCount: 1},
+    { id: '991531608832217188', name: 'Hopper', chain: 'polygon',   address: '0x01172076A62A8ee348F5aaC995dDbC617294c410', nftCount: 1},
   ];
   for(let i in sampleData) {
     if(await User.findOneById(sampleData[i].id)) {
@@ -64,24 +64,11 @@ router.post('/register', (req, res) => {
 
 //Verify-give roll
 router.post("/verify", async (req, res) => {
-    const contract = await initContract();
-    // 1. get NFT info
     const address = req.body.address;
-    if(address === null) return res.json({
-      code: 400,
-      message: "plz connect your wallet",
-    });
-    
-    let ret;
-    ret = await contract.balanceOf(address);
-    const count = Number(ret);
-    console.log("count", count);
-  
-    if(count === 0) return res.json({
-      code: 400,
-      message: "your are not holder",
-    });
-  
+    // 1. get NFT info
+    let result = await checkHolder(address);
+    if(result.code !== 200) return res.json(result);
+   
     // 2. get discord ID info
     const url = "https://discord.com/api/oauth2/token";
     const code = req.body.code;
@@ -101,16 +88,12 @@ router.post("/verify", async (req, res) => {
     }); 
   
     const oauthData = await oauthResult.json();
-    console.log("oauthData", oauthData);
     const userResult = await fetch("https://discord.com/api/users/@me", {
       headers: {
         authorization: `${oauthData.token_type} ${oauthData.access_token}`,
       },
     });
-  
-    const userData = await userResult.json();
-    console.log("userData", userData);
-  
+    const userData = await userResult.json();  
     // 3. give auth
     add_nft_role(userData.id);
     return res.json({

@@ -15,10 +15,15 @@ const userSchema = mongoose.Schema({
     required: true,
     minlength: 1,
   },
+  chain: {
+    type: String,
+    trim: true,
+    minlength: 1,
+  },
   address: {
     type: String,
     trim: true,
-    maxlength: 50,
+    minlength: 10,
   },
   nftCount: {
     type: Number,

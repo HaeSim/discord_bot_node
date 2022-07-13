@@ -7,10 +7,23 @@ const CLIENT_ID = process.env.CLIENT_ID;
 const BOT_TOKEN = process.env.BOT_TOKEN;
 
 const commands = [
-	new SlashCommandBuilder().setName('ping').setDescription('Replies with pong!'),
-	new SlashCommandBuilder().setName('server').setDescription('Replies with server info!'),
-	new SlashCommandBuilder().setName('user').setDescription('Replies with user info!'),
-]
+	new SlashCommandBuilder().setName('ping').setDescription('this is test for health check'),
+	new SlashCommandBuilder().setName('server').setDescription('server info!'),
+	new SlashCommandBuilder().setName('submit-wallet').setDescription('if you are holder, submit your wallet')
+	.addStringOption(option =>
+		option.setName('chain')
+			.setDescription('wallet to be tracked')
+			.setRequired(true)
+			.addChoices(
+				{ name: 'ETH', value: 'ethereum' },
+				{ name: 'SOL', value: 'solana' },
+				{ name: 'KLAY', value: 'klaytn' },
+				{ name: 'MATIC', value: 'polygon' },))
+	.addStringOption(option =>
+		 option.setName('address')
+		 	.setDescription('enter your wallet address')
+			.setRequired(true)),
+	new SlashCommandBuilder().setName('holder-list').setDescription('this is excel file about holder list'),]
 	.map(command => command.toJSON());
 
 const rest = new REST({ version: '9' }).setToken(BOT_TOKEN);
