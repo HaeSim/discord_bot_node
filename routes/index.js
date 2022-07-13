@@ -7,7 +7,7 @@ const router = express.Router();
 router.use(cors())
 
 router.get('/', async (req, res) => {
-  const excel = await makeExcelFile(req);
+  const excel = await makeExcelFile();
   const fileName = 'Holder_List.xlsx';
 
   res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
