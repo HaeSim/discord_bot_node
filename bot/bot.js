@@ -1,4 +1,4 @@
-const { Client, Intents, MessageAttachment } = require("discord.js");
+const { Client, Intents, MessageAttachment, MessageEmbed } = require("discord.js");
 const dotEnv = require('dotenv');
 
 const { User } = require('../model/User')
@@ -75,6 +75,14 @@ client.on('interactionCreate', async interaction => {
       await interaction.reply({ content : `Here is HolderList🤫`,
                                 files: [file]});
       break;
+      case 'what-nft':
+        const embed = new MessageEmbed() //
+          .setTitle("NFT 정보로 이동하기")
+          .setDescription(`위에 문구를 눌러서 NFT SCOPE를 확인하세요.`)
+          .setURL(`https://baobab.scope.klaytn.com/nft/${process.env.CONTRACT_ADDR}?tabId=nftTransfer`);
+        
+        await interaction.reply({ embeds: [embed] });
+        break;
     default:
       break;
   }

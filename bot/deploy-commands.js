@@ -22,8 +22,9 @@ const commands = [
 	.addStringOption(option =>
 		 option.setName('address')
 		 	.setDescription('enter your wallet address')
-			.setRequired(true)),
-	new SlashCommandBuilder().setName('holder-list').setDescription('this is excel file about holder list'),]
+			.setRequired(true)), 
+	new SlashCommandBuilder().setName('holder-list').setDescription('this is excel file about holder list'),
+	new SlashCommandBuilder().setName('what-nft').setDescription('this is link to NFT info(scope)'),]
 	.map(command => command.toJSON());
 
 const rest = new REST({ version: '9' }).setToken(BOT_TOKEN);
