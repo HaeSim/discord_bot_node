@@ -16,11 +16,11 @@ async function ready(client) {
     .setURL(URL_ATUH);
   ch.send({ embeds: [embed] }).then(() => {});
 
-  // const embed2 = new MessageEmbed() //
-  //   .setTitle("봇 흔들어 깨우기")
-  //   .setDescription(`봇이 자고 있을 수 있어요. 흔들어서 깨워주세요. (30초 이내로 깨어남)`)
-  //   .setURL(URL_BOT);
-  // ch.send({ embeds: [embed2] }).then(() => {});
+  const embed2 = new MessageEmbed() //
+    .setTitle("봇 흔들어 깨우기")
+    .setDescription(`봇이 자고 있을 수 있어요. 흔들어서 깨워주세요. (30초 이내로 깨어남)`)
+    .setURL(URL_BOT);
+  ch.send({ embeds: [embed2] }).then(() => {});
 }
 
 module.exports = {
